@@ -1,12 +1,13 @@
 import Navbar from './Navbar/Navbar'
+import Banner from './Banner/Banner'
 
 function App() {
   return (
     <>
       <Navbar />
-      <div>Hello Sliceline</div>
+      <Banner />
+      <div>Hello Pizzaworld</div>
     </>
   )
 }
-
 export default App
