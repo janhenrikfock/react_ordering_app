@@ -1,5 +1,10 @@
 function App() {
-  return <div>Hello Sliceline</div>
+  return (
+    <>
+      <h2>Headline</h2>
+      <div>Hello Sliceline</div>
+    </>
+  )
 }
 
 export default App
