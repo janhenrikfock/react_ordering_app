@@ -1,7 +1,9 @@
+import Navbar from './Navbar/Navbar'
+
 function App() {
   return (
     <>
-      <h2>Headline</h2>
+      <Navbar />
       <div>Hello Sliceline</div>
     </>
   )
