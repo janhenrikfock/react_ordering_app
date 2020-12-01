@@ -7,7 +7,6 @@ function App() {
     <>
       <Navbar />
       <Banner />
-      <div>Hello Pizzaworld</div>
       <Menu />
     </>
   )
