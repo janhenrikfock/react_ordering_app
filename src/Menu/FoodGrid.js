@@ -13,18 +13,24 @@ export const StyledFoodLabel = styled.div`
 `
 
 export const StyledFood = styled.div`
-  box-shadow: 1px 1px 10px #380502;
+  margin-top: 5px;
+  box-shadow: 1px 1px 2px #380502;
   border-radius: 7px;
   font-family: 'Righteous', cursive;
   font-size: 20px;
   padding: 10px;
   height: 100px;
+  filter: contrast(75%);
   background-image: ${({ img }) => `url(${img});`};
   background-position: center;
   background-size: cover;
-  filter: contrast(75%);
+  transition-property: box-shadow margin-top filter;
+  transition-duration: 0.1s;
   &:hover {
     cursor: pointer;
-    opacity: 0.7;
+    box-shadow: 0px 5px 10px 0px #380502;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    filter: contrast(100%);
   }
 `
