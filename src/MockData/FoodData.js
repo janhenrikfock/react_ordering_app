@@ -1,6 +1,6 @@
 export const foodItems = [
   {
-    name: 'Cheese Pizza',
+    name: 'Margherita',
     img: '/img/pizza.png',
     section: 'Pizza',
   },
