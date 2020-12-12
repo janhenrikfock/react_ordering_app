@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro'
-import { foods } from '../MockData/FoodData'
+import { foods, formatPrice } from '../MockData/FoodData'
 import { StyledFoodGrid, StyledFood, StyledFoodLabel } from './FoodGrid'
 
 export default function Menu({ setOpenFood }) {
@@ -16,7 +16,10 @@ export default function Menu({ setOpenFood }) {
                   setOpenFood(food)
                 }}
               >
-                <StyledFoodLabel>{food.name}</StyledFoodLabel>
+                <StyledFoodLabel>
+                  <div>{food.name}</div>
+                  <div>{formatPrice(food.price)}</div>
+                </StyledFoodLabel>
               </StyledFood>
             ))}
           </StyledFoodGrid>

@@ -1,5 +1,6 @@
 import styled from 'styled-components/macro'
 import { StyledFoodLabel } from '../Menu/FoodGrid'
+import { formatPrice } from '../MockData/FoodData'
 
 export default function FoodDialog({
   openFood,
@@ -14,7 +15,9 @@ export default function FoodDialog({
   if (!openFood) {
     return null
   } else {
-    const order = { name: openFood.name }
+    const order = {
+      ...openFood,
+    }
     function addToOrder() {
       setOrders([...orders, order])
       close()
@@ -29,7 +32,9 @@ export default function FoodDialog({
           </DialogBanner>
           <DialogContent />
           <DialogFooter>
-            <StyledConfirm onClick={addToOrder}>Add to Order</StyledConfirm>
+            <StyledConfirm onClick={addToOrder}>
+              Add to Order : {formatPrice(openFood.price)}
+            </StyledConfirm>
           </DialogFooter>
         </Dialog>
       </>
