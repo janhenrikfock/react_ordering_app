@@ -9,9 +9,17 @@ export default function Order({ orders }) {
   return (
     <OrderStyled>
       {orders.length === 0 ? (
-        <OrderContent>Empty Order Dialog</OrderContent>
+        <OrderContent>No orders selected</OrderContent>
       ) : (
-        <OrderContent> Found {orders.length} orders</OrderContent>
+        <OrderContent>
+          <OrderContainer>Your order :</OrderContainer>
+
+          {orders.map((order) => (
+            <OrderContainer>
+              <OrderItem>{order.name}</OrderItem>
+            </OrderContainer>
+          ))}
+        </OrderContent>
       )}
       <DialogFooter>
         <StyledConfirm>Checkout</StyledConfirm>
@@ -35,4 +43,11 @@ const OrderStyled = styled.div`
 const OrderContent = styled(DialogContent)`
   padding: 20px;
   height: 100%;
+`
+const OrderContainer = styled.div`
+  padding: 10px 0px;
+  border-bottom: 1px solid grey;
+`
+const OrderItem = styled.div`
+  padding: 10px 0px;
 `
