@@ -1,24 +1,40 @@
 import styled from 'styled-components/macro'
 import { StyledFoodLabel } from '../Menu/FoodGrid'
 
-export default function FoodDialog({ openFood, setOpenFood }) {
+export default function FoodDialog({
+  openFood,
+  setOpenFood,
+  setOrders,
+  orders,
+}) {
   function close() {
     setOpenFood()
   }
-  return openFood ? (
-    <>
-      <DialogShadow onClick={close} />
-      <Dialog>
-        <DialogBanner img={openFood.img}>
-          <DialogBannerName>{openFood.name}</DialogBannerName>
-        </DialogBanner>
-        <DialogContent />
-        <DialogFooter>
-          <StyledConfirm>Add to Order</StyledConfirm>
-        </DialogFooter>
-      </Dialog>
-    </>
-  ) : null
+
+  if (!openFood) {
+    return null
+  } else {
+    const order = { name: openFood.name }
+    function addToOrder() {
+      setOrders([...orders, order])
+      close()
+    }
+
+    return (
+      <>
+        <DialogShadow onClick={close} />
+        <Dialog>
+          <DialogBanner img={openFood.img}>
+            <DialogBannerName>{openFood.name}</DialogBannerName>
+          </DialogBanner>
+          <DialogContent />
+          <DialogFooter>
+            <StyledConfirm onClick={addToOrder}>Add to Order</StyledConfirm>
+          </DialogFooter>
+        </Dialog>
+      </>
+    )
+  }
 }
 
 const Dialog = styled.div`

@@ -5,10 +5,14 @@ import {
   DialogContent,
 } from '../FoodDialog/FoodDialog'
 
-export default function Order() {
+export default function Order({ orders }) {
   return (
     <OrderStyled>
-      <OrderContent>Empty Order Dialog</OrderContent>
+      {orders.length === 0 ? (
+        <OrderContent>Empty Order Dialog</OrderContent>
+      ) : (
+        <OrderContent> Found {orders.length} orders</OrderContent>
+      )}
       <DialogFooter>
         <StyledConfirm>Checkout</StyledConfirm>
       </DialogFooter>
