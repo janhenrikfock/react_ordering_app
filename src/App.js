@@ -5,10 +5,12 @@ import { useOrders } from './Hooks/useOrders'
 import Menu from './Menu/Menu'
 import Navbar from './Navbar/Navbar'
 import Order from './Order/Order'
+import { useTitle } from './Hooks/useTitle'
 
 function App() {
   const openFood = useOpenFood()
   const orders = useOrders()
+  useTitle({ ...openFood, ...orders })
 
   return (
     <>
