@@ -8,6 +8,11 @@ import { formatPrice } from '../MockData/FoodData'
 import { getPrice } from '../FoodDialog/FoodDialog'
 
 export default function Order({ orders }) {
+  const subtotal = orders.reduce((total, order) => {
+    return total + getPrice(order)
+  }, 0)
+  const tax = subtotal * 0.07
+  const total = subtotal + tax
   return (
     <OrderStyled>
       {orders.length === 0 ? (
@@ -26,6 +31,23 @@ export default function Order({ orders }) {
               </OrderItem>
             </OrderContainer>
           ))}
+          <OrderContainer>
+            <OrderItem>
+              <div></div>
+              <div>Sub-Total</div>
+              <div>{formatPrice(subtotal)}</div>
+            </OrderItem>
+            <OrderItem>
+              <div></div>
+              <div>Tax</div>
+              <div>{formatPrice(tax)}</div>
+            </OrderItem>
+            <OrderItem>
+              <div></div>
+              <div>Total</div>
+              <div>{formatPrice(total)}</div>
+            </OrderItem>
+          </OrderContainer>
         </OrderContent>
       )}
       <DialogFooter>
