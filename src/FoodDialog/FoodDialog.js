@@ -1,13 +1,16 @@
 import styled from 'styled-components/macro'
 import { StyledFoodLabel } from '../Menu/FoodGrid'
 import { formatPrice } from '../MockData/FoodData'
+import QuantityInput from './QuantityInput'
+import { useQuantity } from '../Hooks/useQuantity'
 
-export default function FoodDialog({
-  openFood,
-  setOpenFood,
-  setOrders,
-  orders,
-}) {
+export function getPrice(order) {
+  return order.quantity * order.price
+}
+
+function FoodDialogContainer({ openFood, setOpenFood, setOrders, orders }) {
+  const quantity = useQuantity(openFood && openFood.quantity)
+
   function close() {
     setOpenFood()
   }
@@ -17,6 +20,7 @@ export default function FoodDialog({
   } else {
     const order = {
       ...openFood,
+      quantity: quantity.value,
     }
     function addToOrder() {
       setOrders([...orders, order])
@@ -30,15 +34,25 @@ export default function FoodDialog({
           <DialogBanner img={openFood.img}>
             <DialogBannerName>{openFood.name}</DialogBannerName>
           </DialogBanner>
-          <DialogContent />
+          <DialogContent>
+            <QuantityInput quantity={quantity}></QuantityInput>
+          </DialogContent>
           <DialogFooter>
             <StyledConfirm onClick={addToOrder}>
-              Add to Order : {formatPrice(openFood.price)}
+              Add to Order : {formatPrice(getPrice(order))}
             </StyledConfirm>
           </DialogFooter>
         </Dialog>
       </>
     )
+  }
+}
+
+export default function FoodDialog(props) {
+  if (!props.openFood) {
+    return null
+  } else {
+    return <FoodDialogContainer {...props} />
   }
 }
 
@@ -57,6 +71,7 @@ const Dialog = styled.div`
 export const DialogContent = styled.div`
   overflow: auto;
   min-height: 100px;
+  padding: 0px 40px;
 `
 
 export const DialogFooter = styled.div`
