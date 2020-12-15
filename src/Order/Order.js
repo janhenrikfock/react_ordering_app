@@ -19,7 +19,7 @@ export default function Order({ orders }) {
         <OrderContent>No orders selected</OrderContent>
       ) : (
         <OrderContent>
-          <OrderContainer>Your order :</OrderContainer>
+          <OrderContainer>Your Order :</OrderContainer>
 
           {orders.map((order) => (
             <OrderContainer>
@@ -29,6 +29,12 @@ export default function Order({ orders }) {
                 <div></div>
                 <div>{formatPrice(getPrice(order))}</div>
               </OrderItem>
+              <DetailItem>
+                {order.toppings
+                  .filter((t) => t.checked)
+                  .map((topping) => topping.name)
+                  .join(', ')}
+              </DetailItem>
             </OrderContainer>
           ))}
           <OrderContainer>
@@ -56,7 +62,6 @@ export default function Order({ orders }) {
     </OrderStyled>
   )
 }
-
 const OrderStyled = styled.div`
   position: fixed;
   right: 0px;
@@ -82,4 +87,8 @@ const OrderItem = styled.div`
   display: grid;
   grid-template-columns: 20px 150px 20px 60px;
   justify-content: space-between;
+`
+const DetailItem = styled.div`
+  color: grey;
+  font-size: 10px;
 `

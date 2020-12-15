@@ -3,14 +3,25 @@ import { StyledFoodLabel } from '../Menu/FoodGrid'
 import { formatPrice } from '../MockData/FoodData'
 import QuantityInput from './QuantityInput'
 import { useQuantity } from '../Hooks/useQuantity'
+import Toppings from './Toppings'
+import { useToppings } from '../Hooks/useToppings'
+
+const pricePerTopping = 0.5
 
 export function getPrice(order) {
-  return order.quantity * order.price
+  return (
+    order.quantity *
+    (order.price +
+      order.toppings.filter((t) => t.checked).length * pricePerTopping)
+  )
+}
+function hasToppings(food) {
+  return food.section === 'Pizza'
 }
 
 function FoodDialogContainer({ openFood, setOpenFood, setOrders, orders }) {
   const quantity = useQuantity(openFood && openFood.quantity)
-
+  const toppings = useToppings(openFood.toppings)
   function close() {
     setOpenFood()
   }
@@ -21,6 +32,7 @@ function FoodDialogContainer({ openFood, setOpenFood, setOrders, orders }) {
     const order = {
       ...openFood,
       quantity: quantity.value,
+      toppings: toppings.toppings,
     }
     function addToOrder() {
       setOrders([...orders, order])
@@ -36,6 +48,12 @@ function FoodDialogContainer({ openFood, setOpenFood, setOrders, orders }) {
           </DialogBanner>
           <DialogContent>
             <QuantityInput quantity={quantity}></QuantityInput>
+            {hasToppings(openFood) && (
+              <>
+                <h3>Would you like Toppings?</h3>
+                <Toppings {...toppings}></Toppings>
+              </>
+            )}
           </DialogContent>
           <DialogFooter>
             <StyledConfirm onClick={addToOrder}>
@@ -67,20 +85,18 @@ const Dialog = styled.div`
   display: flex;
   flex-direction: column;
 `
-
 export const DialogContent = styled.div`
   overflow: auto;
   min-height: 100px;
   padding: 0px 40px;
+  padding-bottom: 80px;
 `
-
 export const DialogFooter = styled.div`
   box-shadow: 0px -2px 10px 0px grey;
   height: 60px;
   display: flex;
   justify-content: center;
 `
-
 export const StyledConfirm = styled.div`
   margin: 10px;
   color: white;
@@ -93,7 +109,6 @@ export const StyledConfirm = styled.div`
   background-color: var(--pizzared);
   font-family: 'Righteous', bold;
 `
-
 const DialogShadow = styled.div`
   position: fixed;
   height: 100%;
