@@ -2,9 +2,11 @@ import styled from 'styled-components/macro'
 import { StyledFoodLabel } from '../Menu/FoodGrid'
 import { formatPrice } from '../MockData/FoodData'
 import QuantityInput from './QuantityInput'
-import { useQuantity } from '../Hooks/useQuantity'
 import Toppings from './Toppings'
+import Choices from './Choices'
 import { useToppings } from '../Hooks/useToppings'
+import { useQuantity } from '../Hooks/useQuantity'
+import { useChoice } from '../Hooks/useChoice'
 
 const pricePerTopping = 0.5
 
@@ -22,6 +24,7 @@ function hasToppings(food) {
 function FoodDialogContainer({ openFood, setOpenFood, setOrders, orders }) {
   const quantity = useQuantity(openFood && openFood.quantity)
   const toppings = useToppings(openFood.toppings)
+  const choiceRadio = useChoice(openFood.choice)
   function close() {
     setOpenFood()
   }
@@ -33,6 +36,7 @@ function FoodDialogContainer({ openFood, setOpenFood, setOrders, orders }) {
       ...openFood,
       quantity: quantity.value,
       toppings: toppings.toppings,
+      choice: choiceRadio.value,
     }
     function addToOrder() {
       setOrders([...orders, order])
@@ -54,9 +58,15 @@ function FoodDialogContainer({ openFood, setOpenFood, setOrders, orders }) {
                 <Toppings {...toppings}></Toppings>
               </>
             )}
+            {openFood.choices && (
+              <Choices choiceRadio={choiceRadio} openFood={openFood}></Choices>
+            )}
           </DialogContent>
           <DialogFooter>
-            <StyledConfirm onClick={addToOrder}>
+            <StyledConfirm
+              onClick={addToOrder}
+              disabled={openFood.choices && !choiceRadio.value}
+            >
               Add to Order : {formatPrice(getPrice(order))}
             </StyledConfirm>
           </DialogFooter>
@@ -108,6 +118,13 @@ export const StyledConfirm = styled.div`
   cursor: pointer;
   background-color: var(--pizzared);
   font-family: 'Righteous', bold;
+  ${({ disabled }) =>
+    disabled &&
+    `
+  opacity: .5;
+  background-color: grey;
+  pointer-events: none;
+  `}
 `
 const DialogShadow = styled.div`
   position: fixed;
@@ -121,12 +138,12 @@ const DialogShadow = styled.div`
 const DialogBanner = styled.div`
   min-height: 200px;
   margin-bottom: 20px;
-  ${({ img }) => `background-image: url(${img});`}
+  ${({ img }) => (img ? `background-image: url(${img});` : `min-height: 75px;`)}
   background-position: center;
   background-size: cover;
 `
 const DialogBannerName = styled(StyledFoodLabel)`
-  top: 100px;
   font-size: 30px;
   padding: 5px 40px;
+  top: ${({ img }) => (img ? `100px` : `20px`)};
 `

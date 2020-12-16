@@ -47,6 +47,12 @@ const foodItems = [
     section: 'Sides',
     price: 1.5,
   },
+  {
+    name: 'Soda',
+    section: 'Drinks',
+    price: 1,
+    choices: ['Coke', 'Sprite', 'Root Beer'],
+  },
 ]
 
 export const foods = foodItems.reduce((res, food) => {
